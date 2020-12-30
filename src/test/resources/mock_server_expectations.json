@@ -1,0 +1,185 @@
+[ {
+  "id" : "e96e8032-f241-446c-be7a-4b01fcf2e896",
+  "priority" : 0,
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/members/1"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : "{\"id\":1,\"firstName\":\"Jessica\",\"lastName\":\"Campbell\",\"email\":\"jcampbell2i@cpanel.net\"}"
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "075b991d-b5ca-4f82-9cba-306c2162ffbb",
+  "priority" : 0,
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/members/2"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : "{\"id\":2,\"firstName\":\"Bob\",\"lastName\":\"Marley\",\"email\":\"bob.marley@google.com\"}"
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "a941d5e3-8971-4ef0-b760-462308e87a65",
+  "priority" : 0,
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/members/3"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : "{\"id\":3,\"firstName\":\"Tom\",\"lastName\":\"Brady\",\"email\":\"tom.brady@expat.net\"}"
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "faf1a01d-9eab-4a80-b50f-66565e06242f",
+  "priority" : 0,
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/members/999"
+  },
+  "httpResponse" : {
+    "statusCode" : 404,
+    "headers" : {
+      "content-type" : [ "text/plain" ]
+    },
+    "body" : "Member with such id doesn't exists."
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "2423c514-bf26-4fd9-850a-05565fee808d",
+  "priority" : 0,
+  "httpRequest" : {
+    "operationId" : "getAllMembers",
+    "specUrlOrPayload" : "openapi: 3.0.1\ninfo:\n  title: OpenAPI definition\n  version: v0\nservers:\n- url: http://localhost:49823\n  description: Generated server url\ntags:\n- name: member\n  description: '`Members` endpoints for Member information'\npaths:\n  /members:\n    get:\n      tags:\n      - member\n      summary: Get all members and their information.\n      description: Gets all members.\n      operationId: getAllMembers\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Member'\n              examples:\n                Full return of members.:\n                  summary: All Members\n                  description: Full return of members.\n                  value:\n                  - id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                  - id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                  - id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n    post:\n      tags:\n      - member\n      summary: Save a new member or update an existing.\n      description: Save a new member if doesnt exist or updates existing.\n      operationId: createMember\n      requestBody:\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Member'\n        required: true\n      responses:\n        \"201\":\n          description: Created\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n        \"400\":\n          description: \"Invalid input for member. firstName, lastName and email required.\"\n          content:\n            text/plain: {}\n  /members/{id}:\n    get:\n      tags:\n      - member\n      summary: Get a member information\n      description: Returns a given member information given upcNbr for member.\n      operationId: getMember\n      parameters:\n      - name: id\n        in: path\n        description: Member id\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n              examples:\n                Member Example 1:\n                  description: Member Example 1\n                  value:\n                    id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                Member Example 2:\n                  description: Member Example 2\n                  value:\n                    id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                Member Example 3:\n                  description: Member Example 3\n                  value:\n                    id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n        \"404\":\n          description: Member with such upcNbr doesn't exists.\n          content:\n            text/plain: {}\n        \"400\":\n          description: Invalid input. upcNbr required.\n          content:\n            text/plain: {}\n    delete:\n      tags:\n      - member\n      summary: Deletes an member for given id.\n      description: Deletes anmember for a given id.\n      operationId: deleteMember\n      parameters:\n      - name: id\n        in: path\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: Member was deleted.\n          content:\n            text/plain: {}\ncomponents:\n  schemas:\n    Member:\n      required:\n      - email\n      - firstName\n      - lastName\n      type: object\n      properties:\n        id:\n          type: integer\n          description: Member ID which is unique to a member. Is generated by service\n            on creation.\n          format: int64\n          example: 1001\n        firstName:\n          maxLength: 50\n          type: string\n          description: First Name of Member\n          example: Jessica\n        lastName:\n          maxLength: 50\n          type: string\n          description: Last Name of Member\n          example: Campbell\n        email:\n          maxLength: 50\n          pattern: .+@.+\\..+\n          type: string\n          description: Email address of Member\n          example: jcampbell2i@cpanel.net\n"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : [ {
+      "id" : 1,
+      "firstName" : "Jessica",
+      "lastName" : "Campbell",
+      "email" : "jcampbell2i@cpanel.net"
+    }, {
+      "id" : 2,
+      "firstName" : "Bob",
+      "lastName" : "Marley",
+      "email" : "bob.marley@google.com"
+    }, {
+      "id" : 3,
+      "firstName" : "Tom",
+      "lastName" : "Brady",
+      "email" : "tom.brady@expat.net"
+    } ]
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "d075eb6a-9c97-4f41-ae5e-713333054ea9",
+  "priority" : 0,
+  "httpRequest" : {
+    "operationId" : "createMember",
+    "specUrlOrPayload" : "openapi: 3.0.1\ninfo:\n  title: OpenAPI definition\n  version: v0\nservers:\n- url: http://localhost:49823\n  description: Generated server url\ntags:\n- name: member\n  description: '`Members` endpoints for Member information'\npaths:\n  /members:\n    get:\n      tags:\n      - member\n      summary: Get all members and their information.\n      description: Gets all members.\n      operationId: getAllMembers\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Member'\n              examples:\n                Full return of members.:\n                  summary: All Members\n                  description: Full return of members.\n                  value:\n                  - id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                  - id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                  - id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n    post:\n      tags:\n      - member\n      summary: Save a new member or update an existing.\n      description: Save a new member if doesnt exist or updates existing.\n      operationId: createMember\n      requestBody:\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Member'\n        required: true\n      responses:\n        \"201\":\n          description: Created\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n        \"400\":\n          description: \"Invalid input for member. firstName, lastName and email required.\"\n          content:\n            text/plain: {}\n  /members/{id}:\n    get:\n      tags:\n      - member\n      summary: Get a member information\n      description: Returns a given member information given upcNbr for member.\n      operationId: getMember\n      parameters:\n      - name: id\n        in: path\n        description: Member id\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n              examples:\n                Member Example 1:\n                  description: Member Example 1\n                  value:\n                    id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                Member Example 2:\n                  description: Member Example 2\n                  value:\n                    id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                Member Example 3:\n                  description: Member Example 3\n                  value:\n                    id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n        \"404\":\n          description: Member with such upcNbr doesn't exists.\n          content:\n            text/plain: {}\n        \"400\":\n          description: Invalid input. upcNbr required.\n          content:\n            text/plain: {}\n    delete:\n      tags:\n      - member\n      summary: Deletes an member for given id.\n      description: Deletes anmember for a given id.\n      operationId: deleteMember\n      parameters:\n      - name: id\n        in: path\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: Member was deleted.\n          content:\n            text/plain: {}\ncomponents:\n  schemas:\n    Member:\n      required:\n      - email\n      - firstName\n      - lastName\n      type: object\n      properties:\n        id:\n          type: integer\n          description: Member ID which is unique to a member. Is generated by service\n            on creation.\n          format: int64\n          example: 1001\n        firstName:\n          maxLength: 50\n          type: string\n          description: First Name of Member\n          example: Jessica\n        lastName:\n          maxLength: 50\n          type: string\n          description: Last Name of Member\n          example: Campbell\n        email:\n          maxLength: 50\n          pattern: .+@.+\\..+\n          type: string\n          description: Email address of Member\n          example: jcampbell2i@cpanel.net\n"
+  },
+  "httpResponse" : {
+    "statusCode" : 201,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : {
+      "id" : 1001,
+      "firstName" : "Jessica",
+      "lastName" : "Campbell",
+      "email" : "jcampbell2i@cpanel.net"
+    }
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "2c43e2c2-dcef-4dcf-b219-8921e0ff9c25",
+  "priority" : 0,
+  "httpRequest" : {
+    "operationId" : "getMember",
+    "specUrlOrPayload" : "openapi: 3.0.1\ninfo:\n  title: OpenAPI definition\n  version: v0\nservers:\n- url: http://localhost:49823\n  description: Generated server url\ntags:\n- name: member\n  description: '`Members` endpoints for Member information'\npaths:\n  /members:\n    get:\n      tags:\n      - member\n      summary: Get all members and their information.\n      description: Gets all members.\n      operationId: getAllMembers\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Member'\n              examples:\n                Full return of members.:\n                  summary: All Members\n                  description: Full return of members.\n                  value:\n                  - id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                  - id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                  - id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n    post:\n      tags:\n      - member\n      summary: Save a new member or update an existing.\n      description: Save a new member if doesnt exist or updates existing.\n      operationId: createMember\n      requestBody:\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Member'\n        required: true\n      responses:\n        \"201\":\n          description: Created\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n        \"400\":\n          description: \"Invalid input for member. firstName, lastName and email required.\"\n          content:\n            text/plain: {}\n  /members/{id}:\n    get:\n      tags:\n      - member\n      summary: Get a member information\n      description: Returns a given member information given upcNbr for member.\n      operationId: getMember\n      parameters:\n      - name: id\n        in: path\n        description: Member id\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n              examples:\n                Member Example 1:\n                  description: Member Example 1\n                  value:\n                    id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                Member Example 2:\n                  description: Member Example 2\n                  value:\n                    id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                Member Example 3:\n                  description: Member Example 3\n                  value:\n                    id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n        \"404\":\n          description: Member with such upcNbr doesn't exists.\n          content:\n            text/plain: {}\n        \"400\":\n          description: Invalid input. upcNbr required.\n          content:\n            text/plain: {}\n    delete:\n      tags:\n      - member\n      summary: Deletes an member for given id.\n      description: Deletes anmember for a given id.\n      operationId: deleteMember\n      parameters:\n      - name: id\n        in: path\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: Member was deleted.\n          content:\n            text/plain: {}\ncomponents:\n  schemas:\n    Member:\n      required:\n      - email\n      - firstName\n      - lastName\n      type: object\n      properties:\n        id:\n          type: integer\n          description: Member ID which is unique to a member. Is generated by service\n            on creation.\n          format: int64\n          example: 1001\n        firstName:\n          maxLength: 50\n          type: string\n          description: First Name of Member\n          example: Jessica\n        lastName:\n          maxLength: 50\n          type: string\n          description: Last Name of Member\n          example: Campbell\n        email:\n          maxLength: 50\n          pattern: .+@.+\\..+\n          type: string\n          description: Email address of Member\n          example: jcampbell2i@cpanel.net\n"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "application/json" ]
+    },
+    "body" : {
+      "id" : 1,
+      "firstName" : "Jessica",
+      "lastName" : "Campbell",
+      "email" : "jcampbell2i@cpanel.net"
+    }
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+}, {
+  "id" : "4e66b7a1-c7c6-4e28-905a-a832e341d1fb",
+  "priority" : 0,
+  "httpRequest" : {
+    "operationId" : "deleteMember",
+    "specUrlOrPayload" : "openapi: 3.0.1\ninfo:\n  title: OpenAPI definition\n  version: v0\nservers:\n- url: http://localhost:49823\n  description: Generated server url\ntags:\n- name: member\n  description: '`Members` endpoints for Member information'\npaths:\n  /members:\n    get:\n      tags:\n      - member\n      summary: Get all members and their information.\n      description: Gets all members.\n      operationId: getAllMembers\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Member'\n              examples:\n                Full return of members.:\n                  summary: All Members\n                  description: Full return of members.\n                  value:\n                  - id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                  - id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                  - id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n    post:\n      tags:\n      - member\n      summary: Save a new member or update an existing.\n      description: Save a new member if doesnt exist or updates existing.\n      operationId: createMember\n      requestBody:\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Member'\n        required: true\n      responses:\n        \"201\":\n          description: Created\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n        \"400\":\n          description: \"Invalid input for member. firstName, lastName and email required.\"\n          content:\n            text/plain: {}\n  /members/{id}:\n    get:\n      tags:\n      - member\n      summary: Get a member information\n      description: Returns a given member information given upcNbr for member.\n      operationId: getMember\n      parameters:\n      - name: id\n        in: path\n        description: Member id\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: OK\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Member'\n              examples:\n                Member Example 1:\n                  description: Member Example 1\n                  value:\n                    id: 1\n                    firstName: Jessica\n                    lastName: Campbell\n                    email: jcampbell2i@cpanel.net\n                Member Example 2:\n                  description: Member Example 2\n                  value:\n                    id: 2\n                    firstName: Bob\n                    lastName: Marley\n                    email: bob.marley@google.com\n                Member Example 3:\n                  description: Member Example 3\n                  value:\n                    id: 3\n                    firstName: Tom\n                    lastName: Brady\n                    email: tom.brady@expat.net\n        \"404\":\n          description: Member with such upcNbr doesn't exists.\n          content:\n            text/plain: {}\n        \"400\":\n          description: Invalid input. upcNbr required.\n          content:\n            text/plain: {}\n    delete:\n      tags:\n      - member\n      summary: Deletes an member for given id.\n      description: Deletes anmember for a given id.\n      operationId: deleteMember\n      parameters:\n      - name: id\n        in: path\n        required: true\n        schema:\n          type: integer\n          format: int64\n      responses:\n        \"200\":\n          description: Member was deleted.\n          content:\n            text/plain: {}\ncomponents:\n  schemas:\n    Member:\n      required:\n      - email\n      - firstName\n      - lastName\n      type: object\n      properties:\n        id:\n          type: integer\n          description: Member ID which is unique to a member. Is generated by service\n            on creation.\n          format: int64\n          example: 1001\n        firstName:\n          maxLength: 50\n          type: string\n          description: First Name of Member\n          example: Jessica\n        lastName:\n          maxLength: 50\n          type: string\n          description: Last Name of Member\n          example: Campbell\n        email:\n          maxLength: 50\n          pattern: .+@.+\\..+\n          type: string\n          description: Email address of Member\n          example: jcampbell2i@cpanel.net\n"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "content-type" : [ "text/plain" ]
+    }
+  },
+  "times" : {
+    "unlimited" : true
+  },
+  "timeToLive" : {
+    "unlimited" : true
+  }
+} ]
