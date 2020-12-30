@@ -121,6 +121,17 @@
                   "schema": {
                      "type": "integer",
                      "format": "int64"
+                  },
+                  "examples": {
+                     "1": {
+                        "value": "1"
+                     },
+                     "2": {
+                        "value": "2"
+                     },
+                     "3": {
+                        "value": "3"
+                     }
                   }
                }
             ],
@@ -133,8 +144,8 @@
                            "$ref": "#/components/schemas/Member"
                         },
                         "examples": {
-                           "Member Example 1": {
-                              "description": "Member Example 1",
+                           "1": {
+                              "description": "1",
                               "value": {
                                  "id": 1,
                                  "firstName": "Jessica",
@@ -142,8 +153,8 @@
                                  "email": "jcampbell2i@cpanel.net"
                               }
                            },
-                           "Member Example 2": {
-                              "description": "Member Example 2",
+                           "2": {
+                              "description": "2",
                               "value": {
                                  "id": 2,
                                  "firstName": "Bob",
@@ -151,8 +162,8 @@
                                  "email": "bob.marley@google.com"
                               }
                            },
-                           "Member Example 3": {
-                              "description": "Member Example 3",
+                           "3": {
+                              "description": "3",
                               "value": {
                                  "id": 3,
                                  "firstName": "Tom",
