@@ -64,12 +64,18 @@ paths:
       summary: Save a new member or update an existing.
       description: Save a new member if doesnt exist or updates existing.
   /members/{id}:
-    summary: REST API for basic member data.  member-service
     get:
       tags:
       - member
       parameters:
-      - name: id
+      - examples:
+          "1":
+            value: 1
+          "2":
+            value: 2
+          "3":
+            value: 3
+        name: id
         description: Member id
         schema:
           format: int64
@@ -83,22 +89,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Member'
               examples:
-                Member Example 1:
-                  description: Member Example 1
+                "1":
+                  description: "1"
                   value:
                     id: 1
                     firstName: Jessica
                     lastName: Campbell
                     email: jcampbell2i@cpanel.net
-                Member Example 2:
-                  description: Member Example 2
+                "2":
+                  description: "2"
                   value:
                     id: 2
                     firstName: Bob
                     lastName: Marley
                     email: bob.marley@google.com
-                Member Example 3:
-                  description: Member Example 3
+                "3":
+                  description: "3"
                   value:
                     id: 3
                     firstName: Tom
